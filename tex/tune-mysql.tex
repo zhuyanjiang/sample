@@ -1,0 +1,39 @@
+
+\subsection{数据库}
+\subsubsection{mysql配置}
+编辑/etc/my.cnf
+\begin{verbatim}
+secure_file_priv =''
+skip-name-resolve
+log_timestamps=SYSTEM
+slow_query_log=1
+\end{verbatim}
+
+\noindent \#更改数据库文件存放目录
+\begin{verbatim}
+datadir=/home/mysql
+\end{verbatim}
+
+\noindent \#增加索引、排序缓冲区
+\begin{verbatim}
+key_buffer_size=1G
+sort_buffer_size=512M
+innodb_buffer_pool_size=2G
+innodb_buffer_pool_instances=2
+\end{verbatim}
+
+\noindent \#关闭查询缓存
+\begin{verbatim}
+query_cache_size=0
+query_cache_type=0
+\end{verbatim}
+\subsubsection{selinux权限}
+更改默认端口
+\begin{verbatim}
+# semanage port -a -t mysqld_port_t -p tcp 3307
+\end{verbatim}
+更改默认目录
+\begin{verbatim}
+# semanage fcontext -a -t mysqld_db_t "/home/mysql(/.*)?"
+# restorecon -Rv /home/mysql
+\end{verbatim}

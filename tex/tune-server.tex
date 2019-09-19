@@ -1,0 +1,36 @@
+
+\subsection{linux操作系统}
+\subsubsection{磁盘IO}
+查看数据库文件所在磁盘调度策略
+\begin{verbatim}
+# cat /sys/block/sda/queue/scheduler
+\end{verbatim}
+临时
+\begin{verbatim}
+# echo "deadline" >/sys/block/sda/queue/scheduler
+\end{verbatim}
+永久 \\
+系统启动时，添加内核引导参数 elevator=deadline
+\subsubsection{文件系统}
+修改文件/etc/fstab \\
+将数据库文件所在文件系统挂载选项添加noatime，\\
+不更新访问时间，减少磁盘访问 \\
+针对某个文件或目录禁止更新atime
+\begin{verbatim}
+# chattr -R +A /some/dir
+\end{verbatim}
+\subsubsection{交换分区}
+设置swap使用，尽量减少使用swap（如果内存够大，可以不使用）\\
+临时
+\begin{verbatim}
+# echo "10" >/proc/sys/vm/swappiness
+\end{verbatim}
+永久
+\begin{verbatim}
+# echo "vm.swappiness=10" >>/etc/sysctl.conf
+# sysctl -p
+\end{verbatim}
+强制系统释放buffer/cache
+\begin{verbatim}
+# sync && echo "1" >/proc/sys/vm/drop_caches
+\end{verbatim}
