@@ -1,0 +1,44 @@
+color blue/green yellow/red white/magenta white/magenta
+timeout 8
+
+title Archlinux ISO
+find --set-root /archlinux-2021.05.01-x86_64.iso
+map --heads=0 --sectors-per-track=0 /archlinux-2021.05.01-x86_64.iso (0x99)
+map --hook
+rootnoverify (0x99)
+chainloader +1
+
+title Gentoo minimal ISO
+find --set-root /install-x86-minimal-20210426T214502Z.iso
+map --heads=0 --sectors-per-track=0 /install-x86-minimal-20210426T214502Z.iso (0x99)
+map --hook
+root (0x99)
+chainloader +1
+
+title Kalilinux Live ISO
+root (hd0,2)
+kernel /live/vmlinuz boot=live
+initrd /live/initrd.img
+
+title Windows XP
+map (hd0,0) (hd1,0)
+map (hd1,0) (hd0,0)
+map --hook
+rootnoverify (hd0,0)
+chainloader /ntldr
+
+title Windows 7
+map (hd0,0) (hd1,0)
+map (hd1,0) (hd0,0)
+map --hook
+rootnoverify (hd0,0)
+chainloader /bootmgr
+
+title Grub shell
+command
+
+
+
+
+
+
